@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package controllerservice;
+
+service Controller {
+  rpc RegisterSession (SessionInfo) returns (SessionCreated) {}
+
+  rpc RegisterInstance (RegisterRequest) returns (Configuration) {}
+
+  rpc Synchronize (InstanceInfo) returns (Empty) {}
+}
+
+//Bootstrap clients send the session info to the controller
+message SessionInfo {
+  //representing either multi-process or multi-thread
+  string instance_type = 1;
+
+  int32 world_size = 2;
+
+  int32 number_of_workers = 3;
+
+  string application_id = 4;
+
+  bool return_names = 5;
+}
+
+//Response to a ephemeral client request
+message SessionCreated {
+  string group = 1;
+  repeated DataSourceInfo data_source_infos = 2;
+  repeated int32 random_seeds = 3;
+  int32 epochs = 4;
+  repeated string filenames = 5;
+  string data_source_full_path = 6;
+}
+
+message DataSourceInfo {
+  // Name of the data source. <train>, for example
+  string name = 1;
+  // Total sample size of that data source
+  int32 sample_count = 2;
+}
+
+message RegisterRequest {
+  string data_plane_server_addr = 1;
+  string group = 2;
+}
+
+message InstanceInfo {
+  int32 id = 1;
+  string group = 2;
+}
+
+message Configuration {
+  int32 id = 1;
+  bytes configuration_file = 2;
+  int32 world_size = 3;
+  int32 number_of_workers = 4;
+  ControllerMetadataContainer metadata = 5;
+}
+
+message ControllerMetadataContainer {
+  int32 epochs = 1;
+  int32 file_count = 2;
+  int64 full_size = 3;
+  int32 storage_source_level = 4;
+  bool shuffling_enabled = 5;
+  repeated int32 random_seeds = 6;
+  repeated TargetInfo targets_info = 7;
+  repeated DataSourceInfo data_source_infos = 8;
+  repeated ControllerFileInfo file_infos = 9;
+}
+
+message TargetInfo {
+  int32 id = 1;
+  string name = 2;
+}
+
+message ControllerFileInfo {
+  int32 id = 1;
+  string name = 2;
+  int64 size = 3;
+  int32 target = 4;
+}
+
+message Empty {}

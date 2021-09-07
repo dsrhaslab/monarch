@@ -1,0 +1,3 @@
+[submodule "integration/tensorflow"]
+	path = integration/tensorflow
+	url = https://github.com/Dantas198/tensorflow.git
