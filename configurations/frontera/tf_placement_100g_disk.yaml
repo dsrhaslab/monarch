@@ -1,18 +1,21 @@
 ---
 data_plane:
   type: "root_standalone"
+  type_configs:
+    control_policy: "solo_placement"
+    async_placement: "true"
+    dedicated_thread_pool: "true"
   shared_tpool_size: "6"
   has_shareable_file_descriptors: "true"
   hierarchy:
     - type: "file_system"
-      block_size: "131072"
+      block_size: "max"
       max_storage_size: "118111600640"
       prefix: "/tmp/100g_tfrecords"
     - type: "file_system"
-      block_size: "131072"
+      block_size: "max"
       prefix: "/scratch1/07854/dantas/shared/imagenet_processed/100g_tfrecords"
 metadata_container:
-  regex: "train-.*"
   epochs: "3"
   shuffling: "true"
 home_dir: "/home1/07854/dantas/maypaper/middleware_output"

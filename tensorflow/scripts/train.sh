@@ -2,14 +2,14 @@
 
 # Change these variables
 # ======================================================================================
-ROOT_DIR=""
-REPO=""
+ROOT_DIR="${HOME}/maypaper"
+REPO="thesis"
 WORKSPACE=$ROOT_DIR/$REPO
 
 LIBS_DIR="${WORKSPACE}/pastor/third_party"
 SCRIPT_DIR="${WORKSPACE}/tensorflow/models/official-models-2.1.0/official/vision/image_classification"
-VENV_DIR=""
-RESOURCES_DIR=""
+VENV_DIR="${ROOT_DIR}/tf-venv"
+RESOURCES_DIR="${WORKSPACE}/tensorflow/resources"
 CHECKPOINTING_DIR="/tmp/checkpointing"
 # ======================================================================================
 
@@ -37,8 +37,11 @@ function export-vars {
 
 
 function monitor {
-        sh $RESOURCES_DIR/iostat-csv/iostat-csv.sh > $RUN_DIR/iostat.csv &
-        nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.total,memory.free,memory.used --format=csv -l 1 -f $RUN_DIR/nvidia-smi.csv &
+	sh $RESOURCES_DIR/iostat-csv/iostat-csv.sh > $RUN_DIR/iostat.csv &
+	nvidia-smi --query-gpu=utilization.gpu,utilization.memory,memory.total,memory.free,memory.used --format=csv -l 1 -f $RUN_DIR/nvidia-smi.csv &
+	if [[ ! -z $COLLECT_IOPS ]]; then
+		$RESOURCES_DIR/collect_lustre_stats.sh -r 5 -o $RUN_DIR -s llite -f scratch1 > /dev/null &
+	fi
 }
 
 function train-model {
@@ -156,7 +159,7 @@ export-vars
 
 # Handle flags
 echo -e "\nHandling flags..."
-while getopts ":hpxlfvm:b:d:e:g:r:i:s:c:" opt; do
+while getopts ":hpoxlfvm:b:d:e:g:r:i:s:c:" opt; do
 	case $opt in
 		h)
 			echo "$package - train Tensorflow models on ImageNet dataset"
@@ -178,6 +181,7 @@ while getopts ":hpxlfvm:b:d:e:g:r:i:s:c:" opt; do
 			echo "-v       skip evaluation"
 			echo "-s       shard size"
 			echo "-x       use ld_preload monarch"
+			echo "-o       collect lustre IOPS"
 			exit 0
 			;;
 		m)
@@ -235,6 +239,10 @@ while getopts ":hpxlfvm:b:d:e:g:r:i:s:c:" opt; do
 		s)
 			echo "-s was triggered, shard size: $OPTARG" >&2
 			SHARD_SIZE=$OPTARG
+			;;
+		o)
+			echo "-o was triggered, collect lustre IOPS is enable" >&2
+			COLLECT_IOPS=true
 			;;
 		\?)
 			echo "Invalid option: -$OPTARG" >&2

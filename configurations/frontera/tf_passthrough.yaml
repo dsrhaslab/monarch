@@ -1,0 +1,14 @@
+---
+data_plane:
+  type: "root_standalone"
+  shared_tpool_size: "6"
+  hierarchy:
+    - type: "disk"
+      block_size: "131072"
+      prefix: "/scratch1/07854/dantas/shared/imagenet_processed/200g_tfrecords"
+metadata_container:
+  regex: "train-.*"
+  epochs: "3"
+  shuffling: "true"
+home_dir: "/home1/07854/dantas/maypaper/middleware_output"
+debug: "true"

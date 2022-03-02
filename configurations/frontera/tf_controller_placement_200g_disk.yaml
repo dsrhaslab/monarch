@@ -1,7 +1,0 @@
----
-control_plane:
-  periodicity: "10"
-  server_address: "0.0.0.0:50051"
-  data_plane:
-    config_location: "/home1/07854/dantas/maypaper/thesis/configurations/frontera/tf_placement_200g_disk.yaml"
-home_dir: "/home1/07854/dantas/maypaper"

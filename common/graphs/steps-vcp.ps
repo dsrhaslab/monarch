@@ -1,0 +1,34 @@
+#vcp -> vanilla, caching and pastor
+
+clear
+reset
+
+
+#set output 'steps-cvp.svg'
+
+set encoding utf8
+
+# Line colors
+vanilla  = "#000000"
+caching  = "#808080"
+pastor   = "#101000"
+
+set style line 1 linecolor rgb vanilla linetype 1 linewidth 1
+set style line 2 linecolor rgb caching linetype 1 linewidth 1
+set style line 3 linecolor rgb pastor linetype 1 linewidth 1
+
+# Observation window
+obs_window_1 = 5
+obs_window_2 = 10
+
+set ylabel "examples/s"
+set xlabel "global steps"
+
+#set yrange [1500:4000]
+
+plot "steps-alex.txt" using 1:4 title "AlexNet" w lines, \
+    "steps-le.txt" using 1:4 title "LeNet" w lines, \
+    "steps-res.txt" using 1:4 title "ResNet" w lines, \
+    
+
+quit

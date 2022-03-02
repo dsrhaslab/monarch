@@ -1,0 +1,76 @@
+clear
+reset
+
+set output 'avg-time-pastor-200g.svg'
+
+set terminal svg size 1200,300 enhanced background rgb 'white' fname 'Helvetica,20' lw 2
+
+set encoding utf8
+
+# Line colors 
+vanilla_lustre = "#808b96" 
+pastor = "#582723"
+
+
+set style line 1 linecolor rgb vanilla_lustre
+set style line 2 linecolor rgb pastor
+
+
+#chart style
+set style data histogram
+set style fill solid
+set style histogram cluster gap 1
+set boxwidth 0.9
+set xtics format ""
+set grid ytics
+set ytics 400
+set yrange [0:*]
+unset xtics
+
+set grid ytics mytics  # draw lines for each ytics and mytics
+set mytics 2           # set the spacing for the mytics
+set grid 
+
+set label 1 "LeNet" font "Helvetica, 22" at screen 0.268, 0.12
+set label 2 "AlexNet" font "Helvetica, 22" at screen 0.52, 0.12
+set label 3 "ResNet" font "Helvetica, 22" at screen 0.778, 0.12
+
+### Start multiplot (1x3 layout)
+set multiplot layout 1,3 rowsfirst margin 0.2,0.9,0.2,0.75 spacing 0.065,0.1
+
+# --- GRAPH 1-0
+set ylabel "Training time (s)" offset 1.5,0,0
+set key font 'Helvetica,12' \
+    maxrows 1 \
+    Left reverse \
+    width -5 \
+    at screen 0.895, 0.85
+
+plot '.\\vanilla-200g-2048\\aggregate-lenet\\train-time.txt' using 2 every ::1::1 ti "vanilla-lustre" with histogram ls 1, \
+    '.\\pastor-200g-2048\\aggregate-lenet\\train-time.txt' using 2 every ::1::1 ti "with middleware" with histogram ls 2
+
+unset format x
+unset key 
+unset label 1
+unset label 2
+unset label 3
+
+# --- GRAPH 2-0
+
+unset ylabel
+plot '.\\vanilla-200g-2048\\aggregate-alexnet\\train-time.txt' using 2 every ::1::1 with histogram ls 1, \
+    '.\\pastor-200g-2048\\aggregate-alexnet\\train-time.txt' using 2 every ::1::1 with histogram ls 2
+
+unset key 
+
+# --- GRAPH 3-0
+
+set ytics 2000
+
+unset ylabel
+plot '.\\vanilla-200g-2048\\aggregate-resnet\\train-time.txt' using 2 every ::1::1 with histogram ls 1, \
+    '.\\pastor-200g-2048\\aggregate-resnet\\train-time.txt' using 2 every ::1::1 with histogram ls 2
+
+
+unset multiplot
+quit

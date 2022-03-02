@@ -1,0 +1,76 @@
+clear
+reset
+
+set terminal svg size 1200,300 enhanced background rgb 'white' fname "Helvetica,20" lw 2
+set output 'avg-log-200g.svg'
+
+set encoding utf8
+
+# Line colors - Disk
+set style line 2 lc rgb 'grey' lt 1 lw 1
+
+#histogram style
+set boxwidth 0.9 
+set style data histogram 
+set style fill solid 1.0 border lt -1
+#set style fill pattern
+set style histogram cluster gap 1
+
+set errorbars fullwidth
+set style histogram errorbars gap 1 lw 0.2 
+set bars 0.5 lc rgb 'red'
+
+#set xtics format ""
+set grid ytics
+set ytics 300
+set yrange [0:*]
+set ytics offset 0.5
+set xtics nomirror offset 0, graph 0.1
+set tics scale 0.5
+
+set grid ytics mytics  # draw lines for each ytics and mytics
+set mytics 2           # set the spacing for the mytics
+set grid 
+
+set label 1 "LeNet" font "Helvetica Bold, 13" at screen 0.36, 0.72
+set label 2 "AlexNet" font "Helvetica Bold, 13" at screen 0.605, 0.72
+set label 3 "ResNet-50" font "Helvetica Bold, 13" at screen 0.855, 0.72
+
+### Start multiplot (1x3 layout)
+set multiplot layout 1,3 rowsfirst margin 0.2,0.92,0.2,0.75 spacing 0.055,0.1
+
+filenames = "vanilla\\lustre\\200g\\2048 pastor\\200g\\2048"
+titles = "Vanilla-lustre Monarch"
+colors = "#131521 #55f71c" 
+
+# --- GRAPH 1-0
+set ylabel "Training time (s)" offset 1.5,0,0
+set label "Epoch" offset 2.4,-1.4,0 
+set key font 'Helvetica,12' \
+    maxrows 1 \
+    Left reverse \
+    width -5 \
+    at screen 0.935, 0.85
+
+plot for [COL=2:2] for [i=1:2] ".\\june-clean\\".word(filenames, i)."\\aggregate-lenet\\log.txt" every ::1 using 2:($2-$3):($2+$3):xtic(1) ti word(titles, i) lc rgb word(colors,i)
+
+unset format x
+unset key 
+unset label 1
+unset label 2
+unset label 3
+
+# --- GRAPH 2-0
+
+unset ylabel
+
+plot for [COL=2:2] for [i=1:2] ".\\june-clean\\".word(filenames, i)."\\aggregate-alexnet\\log.txt" every ::1 using 2:($2-$3):($2+$3):xtic(1) notitle lc rgb word(colors,i)
+unset key 
+
+# --- GRAPH 3-0
+
+set ytics 1000
+unset ylabel
+plot for [COL=2:2] for [i=1:2] ".\\june-clean\\".word(filenames, i)."\\aggregate-resnet\\log.txt" every ::1 using 2:($2-$3):($2+$3):xtic(1) notitle lc rgb word(colors,i)
+unset multiplot
+quit

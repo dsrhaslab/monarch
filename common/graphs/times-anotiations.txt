@@ -1,0 +1,157 @@
+
+//---------------------------------------100G------------------------------------//
+
+Number of runs:
+	caching:
+		alexnet -> 13
+		lenet -> 15
+		resnet -> 11
+	vanilla
+		alexnet -> 12
+		lenet -> 18
+		resnet -> 9
+	pastor
+		alexnet -> 13
+		lenet -> 16
+		resnet -> 10
+
+//------1st prune------//
+
+caching:
+	lenet-bs256-ep3-2021_06_12-15_41 -> all the same (200s)
+	clean-data\lenet-bs256-ep3-2021_06_19-16_52 -> starts increasing (1st 590s)
+	clean-data\lenet-bs256-ep3-2021_06_20-19_18 -> crazy (1st 990s)
+	clean-data\lenet-bs256-ep3-2021_06_20-22_03 -> same
+	clean-data\lenet-bs256-ep3-2021_06_21-01_03 -> same
+	clean-data\lenet-bs256-ep3-2021_06_24-13_22 -> same
+
+	clean-data\alexnet-bs256-ep3-2021_06_21-02_28 -> crazy (1st 944)
+	clean-data\alexnet-bs256-ep3-2021_06_20-23_31 -> crazy (1st 832)
+	clean-data\alexnet-bs256-ep3-2021_06_20-20_40 -> 1st 809
+	
+	clean-data\resnet-bs256-ep3-2021_06_19-15_06 -> 1st 1798
+	clean-data\resnet-bs256-ep3-2021_06_19-17_49 -> 1st and 2nd kind of high (+-1400)
+	clean-data\resnet-bs256-ep3-2021_06_20-15_19 -> 1st and 2nd super high (+-1400)
+	clean-data\resnet-bs256-ep3-2021_06_22-16_46 -> 2nd bigger than first, but small diff
+
+vanilla-lustre:
+	vanilla\lustre\100g\clean-data\lenet-bs256-ep3-2021_06_20-18_41 -> high values (>600)
+
+	vanilla\lustre\100g\clean-data\alexnet-bs256-ep3-2021_06_20-22_55 -> high values (>600 && >500)
+	vanilla\lustre\100g\clean-data\alexnet-bs256-ep3-2021_06_21-01_50 -> high values (>700 && >600)
+	vanilla\lustre\100g\clean-data\alexnet-bs256-ep3-2021_06_24-14_01 -> only first value high (>700)
+
+	vanilla\lustre\100g\clean-data\resnet-bs256-ep3-2021_06_20-10_07 -> high values (>1500)
+
+pastor:
+	pastor\100g\clean-data\alexnet-bs256-ep3-2021_06_20-09_41 -> weird one -> 2nd much higher than 1st
+	pastor\100g\clean-data\alexnet-bs256-ep3-2021_06_21-03_08 -> same, but this time it's the 3rd thats higher
+	
+	pastor\100g\clean-data\resnet-bs256-ep3-2021_06_12-00_41 -> super high 2nd and 3rd.
+	pastor\100g\clean-data\resnet-bs256-ep3-2021_06_20-07_58 -> 2nd is higher
+	pastor\100g\clean-data\resnet-bs256-ep3-2021_06_20-11_29 -> same but bigger difference
+	pastor\100g\clean-data\resnet-bs256-ep3-2021_06_20-16_52 -> same. Overall value is way higher
+
+//------2nd prune------//
+
+We want 6/7 runs in total for each model.
+Criteria: 1/2 in each day....leaving extremes, but never too high or too low.
+Day 19 is not on vanilla alexnet and is only on caching
+
+caching: 
+	caching\disk\clean-data\lenet-bs256-ep3-2021_06_19-16_52
+	caching\disk\clean-data\lenet-bs256-ep3-2021_06_12-17_40
+	caching\disk\clean-data\lenet-bs256-ep3-2021_06_12-15_03
+	7
+
+	caching\disk\clean-data\alexnet-bs256-ep3-2021_06_19-19_57
+	caching\disk\clean-data\alexnet-bs256-ep3-2021_06_19-14_45
+	caching\disk\clean-data\alexnet-bs256-ep3-2021_06_12-18_10
+	caching\disk\clean-data\alexnet-bs256-ep3-2021_06_19-17_27
+	6
+
+	caching\disk\clean-data\resnet-bs256-ep3-2021_06_19-20_22
+	6
+
+vanilla:
+	vanilla\lustre\100g\clean-data\lenet-bs256-ep3-2021_06_12-14_44
+	vanilla\lustre\100g\clean-data\lenet-bs256-ep3-2021_06_12-17_24
+	vanilla\lustre\100g\clean-data\lenet-bs256-ep3-2021_06_12-21_48
+	vanilla\lustre\100g\clean-data\lenet-bs256-ep3-2021_06_12-07_57
+	vanilla\lustre\100g\clean-data\lenet-bs256-ep3-2021_06_12-15_20
+	vanilla\lustre\100g\clean-data\lenet-bs256-ep3-2021_06_19-19_04
+	vanilla\lustre\100g\clean-data\lenet-bs256-ep3-2021_06_24-18_27
+	vanilla\lustre\100g\clean-data\lenet-bs256-ep3-2021_06_22-13_45
+	vanilla\lustre\100g\clean-data\lenet-bs256-ep3-2021_06_21-00_25
+	vanilla\lustre\100g\clean-data\lenet-bs256-ep3-2021_06_12-02_36
+	7
+
+	vanilla\lustre\100g\clean-data\alexnet-bs256-ep3-2021_06_20-09_11
+	vanilla\lustre\100g\clean-data\alexnet-bs256-ep3-2021_06_11-21_29
+	7
+
+	vanilla\lustre\100g\clean-data\resnet-bs256-ep3-2021_06_12-04_26	
+	vanilla\lustre\100g\clean-data\resnet-bs256-ep3-2021_06_20-06_48
+	6
+
+pastor:
+	pastor\100g\clean-data\lenet-bs256-ep3-2021_06_11-21_15
+	pastor\100g\clean-data\lenet-bs256-ep3-2021_06_12-03_14
+	pastor\100g\clean-data\lenet-bs256-ep3-2021_06_12-08_34
+	--> put lenet-bs256-ep3-2021_06_12-17_56 --> switch pastor\100g\clean-data\lenet-bs256-ep3-2021_06_12-20_08
+	--> put lenet-bs256-ep3-2021_06_22-14_28 --> switch pastor\100g\clean-data\lenet-bs256-ep3-2021_06_20-22_34
+	pastor\100g\clean-data\lenet-bs256-ep3-2021_06_19-17_12
+	pastor\100g\clean-data\lenet-bs256-ep3-2021_06_20-19_50	
+	pastor\100g\clean-data\lenet-bs256-ep3-2021_06_24-19_00
+	pastor\100g\clean-data\lenet-bs256-ep3-2021_06_21-01_31
+	pastor\100g\clean-data\lenet-bs256-ep3-2021_06_22-14_28
+	7
+
+	pastor\100g\clean-data\alexnet-bs256-ep3-2021_06_12-09_28
+	pastor\100g\clean-data\alexnet-bs256-ep3-2021_06_20-21_10
+	pastor\100g\clean-data\alexnet-bs256-ep3-2021_06_21-00_00
+	pastor\100g\clean-data\alexnet-bs256-ep3-2021_06_24-14_48
+	7
+	resnet -> 6
+
+vanilla-local:
+	vanilla\local\clean-data\alexnet-bs256-ep3-2021_06_16-00_41
+	4
+
+	
+//------3rd prune------//
+vanilla-lustre:
+	vanilla\lustre\100g\clean-data\alexnet-bs256-ep3-2021_06_20-20_10
+	6
+pastor:
+	pastor\100g\clean-data\alexnet-bs256-ep3-2021_06_20-14_56
+	6
+
+
+//-----1st insert------//
+caching:
+	alexnet-bs256-ep3-2021_06_19-17_27
+	7
+	try3\caching\resnet-bs256-ep3-2021_06_25-23_35
+	7
+
+vanilla-lustre
+	try3\vanilla-lustre\resnet-bs256-ep3-2021_06_25-22_09
+	7
+pastor:
+	put -> lenet-bs256-ep3-2021_06_21-01_31 - switch lenet-bs256-ep3-2021_06_19-14_30
+	put -> alexnet-bs256-ep3-2021_06_21-00_00 - switch alexnet-bs256-ep3-2021_06_20-14_56
+	7
+	try3\pastor\resnet-bs256-ep3-2021_06_26-09_05
+
+//-----2nd insert------//
+caching :
+	put -> resnet-bs256-ep3-2021_06_26-07_36 - switch resnet-bs256-ep3-2021_06_12-22_55
+vanilla-lustre:
+	put -> resnet-bs256-ep3-2021_06_26-06_18 - switch resnet-bs256-ep3-2021_06_24-15_04
+pastor:
+	put -> resnet-bs256-ep3-2021_06_26-00_55 - switch resnet-bs256-ep3-2021_06_24-17_19
+	
+
+
+	

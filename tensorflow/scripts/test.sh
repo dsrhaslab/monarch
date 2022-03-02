@@ -8,10 +8,10 @@
 #SBATCH -n 1             # Total # of mpi tasks (should be 1 for serial)
 #SBATCH -t 30:00:00      # Run time (hh:mm:ss)
 
-ROOT_DIR=""
-REPO=""
+ROOT_DIR="${HOME}/maypaper"
+REPO="thesis"
 WORKSPACE=$ROOT_DIR/$REPO
-DATA=""
+DATA="/scratch1/07854/dantas/shared"
 LUSTRE_DATASET="${DATA}/imagenet_processed/100g_tfrecords"
 
 TARGET_DIR="${ROOT_DIR}/results/tensorflow/june"
