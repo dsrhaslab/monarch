@@ -108,29 +108,32 @@ Basic configurations can be found in the `configurations` directory.
 ```yaml
 ---
 data_plane:
-  type: "root_standalone"
-  type_configs:
+  hierarchical_stage:
+    shared_tpool_size: "1"
+    hierarchy:
+    - type: "file_system"
+      subtype: "posix"
+      max_storage_size: "1000028234496"
+      block_size: "max"
+      prefix: "/home/dantas/datasets/staged_hymenoptera_data/"
+    - type: "file_system"
+      subtype: "posix"
+      block_size: "max"
+      prefix: "/home/dantas/datasets/hymenoptera_data/"
+  handlers:
     control_policy: "solo_placement"
-    async_placement: "true"
-    dedicated_thread_pool: "true"
-  shared_tpool_size: "6"
-  has_shareable_file_descriptors: "true"
-  hierarchy:
-    - type: "file_system"
-      block_size: "max"
-      max_storage_size: "118111600640"
-      prefix: "/tmp/imagenet_tfrecords"
-    - type: "file_system"
-      block_size: "max"
-      prefix: "/scratch1/user_id/dl_datasets/imagenet_tfrecords"
-metadata_container:
-  epochs: "3"
-  shuffling: "true"
-home_dir: "/home1/user_id/monarch_output"
-debug: "false"
+    async_placement: true
+    dedicated_thread_pool: true
+  data_governance:
+    metadata_options:
+      shared_file_descriptors: true
+    metadata_container_service:
+      prefix: "train"
+workspace: "/home/dantas/monarch_output"
+debug_logs: true
 profiler:
-  active: "true"
-  collect_frequency: "2"
+  active: true
+  collect_frequency: "5"
 ```
 
 
