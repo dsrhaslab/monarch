@@ -1,0 +1,8 @@
+//
+// Created by dantas on 10/04/22.
+//
+
+#ifndef MONARCH_INTRUSIVE_STAGE_H
+#define MONARCH_INTRUSIVE_STAGE_H
+
+#endif //MONARCH_INTRUSIVE_STAGE_H
